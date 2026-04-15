@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Monitoring Kinerja Bidang Pemadaman dan Penyelamatan</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="bg-soft bg-1"></div>
+  <div class="bg-soft bg-2"></div>
+
+  <header class="topbar">
+    <div class="brand-group">
+      <div class="logo-wrap">
+        <img src="assets/images/logo-lumajang.png" alt="Logo Kabupaten Lumajang" class="logo kab-logo" />
+      </div>
+
+      <div class="brand-text">
+        <div class="title-row">
+          <span class="badge-live">LIVE MONITORING</span>
+          <span class="badge-year">Kab. Lumajang</span>
+        </div>
+        <h1>Dashboard Monitoring Kinerja Bidang Pemadaman dan Penyelamatan</h1>
+        <p>Kabupaten Lumajang, Jawa Timur</p>
+      </div>
+
+      <div class="agency-logos">
+        <img src="assets/images/logo-damkar.png" alt="Logo Damkar" class="logo small-logo" />
+        <img src="assets/images/logo-satpolpp.png" alt="Logo Satpol PP" class="logo small-logo" />
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero-card">
+      <div class="hero-content">
+        <div>
+          <h2>Monitoring Kinerja Terpadu</h2>
+          <p>
+            Visualisasi data kejadian pemadaman dan penyelamatan berdasarkan kecamatan,
+            bulan, dan jenis kejadian untuk mendukung pengambilan keputusan yang cepat dan tepat.
+          </p>
+          <div class="hero-actions">
+            <button class="btn-primary" type="button" id="btnReset">Reset Filter</button>
+            <button class="btn-secondary" type="button" id="btnScrollTable">Lihat Ringkasan</button>
+          </div>
+        </div>
+
+        <div class="hero-summary">
+          <div class="summary-box">
+            <span class="summary-label">Total Pemadaman</span>
+            <strong id="heroPemadaman">0</strong>
+          </div>
+          <div class="summary-box">
+            <span class="summary-label">Total Penyelamatan</span>
+            <strong id="heroPenyelamatan">0</strong>
+          </div>
+          <div class="summary-box">
+            <span class="summary-label">Wilayah Terpantau</span>
+            <strong>21 Kecamatan</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="intro-card">
+      <h2>Profil Wilayah</h2>
+      <p>
+        Kabupaten Lumajang, Jawa Timur, terdiri dari <strong>21 kecamatan</strong>,
+        <strong>7 kelurahan</strong>, dan <strong>198 desa</strong> dengan luas wilayah
+        <strong>1.790,90 km²</strong>.
+      </p>
+      <p>
+        Kecamatan meliputi: Candipuro, Gucialit, Jatiroto, Kedungjajang, Klakah, Kunir,
+        Lumajang, Padang, Pasirian, Pasrujambe, Pronojiwo, Randuagung, Ranuyoso,
+        Rowokangkung, Senduro, Sukodono, Sumbersuko, Tekung, Tempeh, Tempursari, dan
+        Yosowilangun.
+      </p>
+    </section>
+
+    <section class="filter-card">
+      <div class="filter-item">
+        <label for="kecamatanFilter">Filter Kecamatan</label>
+        <select id="kecamatanFilter">
+          <option value="Semua">Semua Kecamatan</option>
+        </select>
+      </div>
+
+      <div class="filter-item">
+        <label for="bulanFilter">Filter Bulan</label>
+        <select id="bulanFilter">
+          <option value="Semua">Semua Bulan</option>
+          <option value="1">Januari</option>
+          <option value="2">Februari</option>
+          <option value="3">Maret</option>
+          <option value="4">April</option>
+          <option value="5">Mei</option>
+          <option value="6">Juni</option>
+          <option value="7">Juli</option>
+          <option value="8">Agustus</option>
+          <option value="9">September</option>
+          <option value="10">Oktober</option>
+          <option value="11">November</option>
+          <option value="12">Desember</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="stats-grid">
+      <div class="stat-card danger clickable-card" id="cardPemadaman">
+        <div class="stat-icon">🔥</div>
+        <h3>Pemadaman</h3>
+        <p class="stat-number" id="totalPemadaman">0</p>
+        <span>Jumlah kejadian</span>
+      </div>
+
+      <div class="stat-card rescue clickable-card" id="cardPenyelamatan">
+        <div class="stat-icon">🛟</div>
+        <h3>Penyelamatan</h3>
+        <p class="stat-number" id="totalPenyelamatan">0</p>
+        <span>Jumlah kejadian</span>
+      </div>
+
+      <div class="stat-card info">
+        <div class="stat-icon">📍</div>
+        <h3>Kecamatan Terpantau</h3>
+        <p class="stat-number" id="totalKecamatan">21</p>
+        <span>Wilayah monitoring</span>
+      </div>
+
+      <div class="stat-card neutral">
+        <div class="stat-icon">📅</div>
+        <h3>Periode Terpilih</h3>
+        <p class="stat-number" id="dominantMonth">Semua</p>
+        <span>Berdasarkan filter</span>
+      </div>
+    </section>
+
+    <section class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3>Tren Kejadian Pemadaman per Bulan</h3>
+          <span class="chart-tag red">Pemadaman</span>
+        </div>
+        <canvas id="chartPemadaman"></canvas>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3>Tren Kejadian Penyelamatan per Bulan</h3>
+          <span class="chart-tag green">Penyelamatan</span>
+        </div>
+        <canvas id="chartPenyelamatan"></canvas>
+      </div>
+    </section>
+
+    <section class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3>Jenis Penyelamatan</h3>
+          <span class="chart-tag blue">Rescue</span>
+        </div>
+        <canvas id="chartRescueType"></canvas>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3>Kejadian Paling Sering per Kecamatan</h3>
+          <span class="chart-tag orange">Top Kecamatan</span>
+        </div>
+        <canvas id="chartKecamatan"></canvas>
+      </div>
+    </section>
+
+    <section class="table-card" id="ringkasanSection">
+      <div class="table-top">
+        <h3>Ringkasan Monitoring Kecamatan</h3>
+        <p>Klik nama kecamatan untuk melihat detail lengkap</p>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Kecamatan</th>
+              <th>Pemadaman</th>
+              <th>Penyelamatan</th>
+              <th>Jenis Dominan</th>
+            </tr>
+          </thead>
+          <tbody id="summaryTable"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- POPUP MODAL -->
+  <div id="popupModal" class="modal-overlay">
+    <div class="modal-box">
+      <button class="modal-close" id="closeModal">&times;</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
